@@ -48,25 +48,15 @@
         }
       `,
 
+      
       fragmentShader: `
         uniform sampler2D src;
         varying vec2 vUv;
-
+      
         void main() {
-          vec4 color = texture2D(src, vUv);
-
-          // RGBすべてがほぼ最大値の純白の場合だけ透明化
-          bool pureWhite =
-            color.r > 0.999 &&
-            color.g > 0.999 &&
-            color.b > 0.999;
-
-          if (pureWhite) {
-            gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
-          } else {
-            gl_FragColor = color;
-          }
+          gl_FragColor = texture2D(src, vUv);
         }
+
       `
     });
   </script>
