@@ -1,0 +1,41 @@
+
+<script>
+  const video = document.querySelector("#demoVideo");
+  const target = document.querySelector("[mindar-image-target]");
+
+  let userAllowedAudio = false;
+  let targetVisible = false;
+
+  // 最初の画面タップで音声付き再生を許可
+  document.addEventListener("click", async () => {
+    userAllowedAudio = true;
+
+    if (targetVisible) {
+      try {
+        await video.play();
+      } catch (error) {
+        console.error("動画再生エラー:", error);
+      }
+    }
+  }, { once: true });
+
+  // 写真を認識したら動画を再生
+  target.addEventListener("targetFound", async () => {
+    targetVisible = true;
+    video.currentTime = 0;
+
+    if (userAllowedAudio) {
+      try {
+        await video.play();
+      } catch (error) {
+        console.error("動画再生エラー:", error);
+      }
+    }
+  });
+
+  // 写真を見失ったら動画を停止
+  target.addEventListener("targetLost", () => {
+    targetVisible = false;
+    video.pause();
+  });
+</script>
